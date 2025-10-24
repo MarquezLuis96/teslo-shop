@@ -50,7 +50,12 @@ export class Product {
     default: [],
   })
   images: string[];
-  // ... other product properties
+
+  @Column('text', {
+    array: true,
+    default: [],
+  })
+  tags: string[];
 
   @BeforeInsert()
   checkSlugInsert() {
