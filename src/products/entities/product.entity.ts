@@ -3,8 +3,10 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { ProductImage } from './product-image.entity';
 
 @Entity()
 export class Product {
@@ -45,11 +47,15 @@ export class Product {
   @Column('text')
   gender: string;
 
-  @Column('text', {
-    array: true,
-    default: [],
+  // @Column('text', {
+  //   array: true,
+  //   default: [],
+  // })
+  @OneToMany(() => ProductImage, (productImage) => productImage.product, {
+    cascade: true,
+    eager: true,
   })
-  images: string[];
+  images?: ProductImage[];
 
   @Column('text', {
     array: true,
