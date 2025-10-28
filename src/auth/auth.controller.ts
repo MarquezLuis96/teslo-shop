@@ -1,8 +1,22 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  Post,
+  Req,
+  SetMetadata,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from './decorators/get-user.decorator';
+import { User } from './entities/user.entity';
+import { RawHeaders } from './decorators/raw-headers.decorator';
+import * as http from 'http';
+import { UserRoleGuardGuard } from './guards/user-role-guard/user-role-guard.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -20,10 +34,35 @@ export class AuthController {
 
   @Get('private')
   @UseGuards(AuthGuard())
-  testingPrivateRoute() {
+  testingPrivateRoute(
+    // @Req() request: Express.Request,
+    // @GetUser(['email', 'role', 'fullName']) user: User,
+    @GetUser() user: User,
+    @GetUser('email') userEmail: string,
+    @RawHeaders() rawHeaders: string[],
+    @Headers() headers: http.IncomingHttpHeaders,
+  ) {
+    // console.log('REQUEST: ', request);
+    // console.log('User: ', user);
+    console.log('User: ', userEmail);
+    console.log('rawHeaders: ', rawHeaders);
+    console.log('headers: ', headers);
     return {
       ok: true,
       message: 'Hola mundo private.',
+      user: user,
+      userEmail: userEmail,
+      rawHeaders: rawHeaders,
+    };
+  }
+
+  @Get('private2')
+  @SetMetadata('roles', ['admin', 'superuser'])
+  @UseGuards(AuthGuard(), UserRoleGuardGuard)
+  privateRoute2(@GetUser() user: User) {
+    return {
+      ok: true,
+      user: user,
     };
   }
 }
