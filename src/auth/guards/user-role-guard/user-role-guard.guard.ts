@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
+import { META_ROLES } from '../../decorators/role-protected/role-protected.decorator';
 
 @Injectable()
 export class UserRoleGuardGuard implements CanActivate {
@@ -18,7 +19,7 @@ export class UserRoleGuardGuard implements CanActivate {
     console.log('userRoleGuard: ');
 
     const validRoles: string[] = this.reflector.get(
-      'roles',
+      META_ROLES,
       context.getHandler(),
     );
 
