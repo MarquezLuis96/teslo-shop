@@ -19,7 +19,9 @@ import * as http from 'http';
 import { UserRoleGuardGuard } from './guards/user-role-guard/user-role-guard.guard';
 import { Auth, RoleProtected } from './decorators';
 import { ValidRoles } from './interfaces';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -91,6 +93,6 @@ export class AuthController {
   @Auth()
   checkAuthStatus(@GetUser() user: User) {
     //
-    return this.authService.checkAuthStatus();
+    return this.authService.checkAuthStatus(user);
   }
 }

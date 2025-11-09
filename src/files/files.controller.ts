@@ -14,7 +14,9 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { fileFiler, fileNamer } from './helpers';
 import { diskStorage } from 'multer';
 import { ConfigService } from '@nestjs/config';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Files')
 @Controller('files')
 export class FilesController {
   constructor(

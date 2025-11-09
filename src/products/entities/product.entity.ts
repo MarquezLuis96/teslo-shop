@@ -9,43 +9,59 @@ import {
 } from 'typeorm';
 import { ProductImage } from './product-image.entity';
 import { User } from 'src/auth/entities/user.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({ name: 'products' })
 export class Product {
+  @ApiProperty({
+    example: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    description: 'Product ID',
+    uniqueItems: true,
+  })
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @ApiProperty({
+    example: 'Title',
+    description: 'Title',
+  })
   @Column('text', {
     unique: true,
   })
   title: string;
 
+  @ApiProperty()
   @Column('float', {
     default: 0,
   })
   price: number;
 
+  @ApiProperty()
   @Column({
     type: 'text',
     nullable: true,
   })
   description: string;
 
+  @ApiProperty()
   @Column('text', {
     unique: true,
   })
   slug: string;
 
+  @ApiProperty()
   @Column('int', {
     default: 0,
   })
   stock: number;
 
+  @ApiProperty()
   @Column('text', {
     array: true,
   })
   sizes: string[];
 
+  @ApiProperty()
   @Column('text')
   gender: string;
 
@@ -59,6 +75,7 @@ export class Product {
   })
   images?: ProductImage[];
 
+  @ApiProperty()
   @Column('text', {
     array: true,
     default: [],
