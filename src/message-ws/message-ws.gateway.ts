@@ -12,14 +12,22 @@ export class MessageWsGateway
 {
   constructor(private readonly messageWsService: MessageWsService) {}
   handleConnection(client: Socket /*, ...args: any[]*/) {
-    console.log('Cliente conectado...');
-    console.log('ClientId: ', client.id);
+    // console.log('Cliente conectado...');
+    // console.log('ClientId: ', client.id);
     //throw new Error('Method not implemented.');
+
+    this.messageWsService.registerClient(client);
+
+    console.log({ conectados: this.messageWsService.getConnectedClients() });
   }
+
   handleDisconnect(client: Socket) {
-    console.log('Cliente desconectado...');
-    console.log('ClientId: ', client.id);
+    // console.log('Cliente desconectado...');
+    // console.log('ClientId: ', client.id);
     //throw new Error('Method not implemented.');
+
+    this.messageWsService.removeClient(client.id);
+    console.log({ conectados: this.messageWsService.getConnectedClients() });
   }
 
   //
